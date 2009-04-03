@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- FERI, LSPO. Accelerometer data -->
+<!-- Session with date partitioned into seconds with time -->
+<!-- Data formated as: status;x;y;z;timer;packet number;checksum A;checksum B; -->
+<session date="2009.04.03">
