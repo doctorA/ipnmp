@@ -31,7 +31,6 @@ s = serial(com);
 fopen(s);
 
 % Dreaded infinet loop of everything
-tic;
 while (brkSwitch);
     dataRead = fread(s);                                                    % Read data from serial port buffer 
     dataPooled = reshape([dataPooled,dataRead'],1,[]);                      % Append new read data to left overs from buffer
@@ -53,7 +52,6 @@ while (brkSwitch);
             dataFormated(c,8) = dataStored(15,f);
             
             % At this pointdataFormated(c,(1-8)) has the latest signal, pooled and formated, GRAPH GOUES HERE! 
-            risi_graf(dataFormated(c,2),dataFormated(c,3),dataFormated(c,4),1);
             
             if (dataFormated(c,5) < dataFormated(1,5))                      % Checking to see if timer counter has turned over
                 if (dataFormated(c,5) < dataFormated((c - 1),5))            % When in the buffer the timer turned over
