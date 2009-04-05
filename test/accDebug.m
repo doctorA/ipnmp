@@ -1,4 +1,4 @@
-function accDebug(com)                                                      % Stops with any key pressed
+function accDebug(timerhandle, eventdata, com)                                                      % Stops with any key pressed
 %function [debug] = accDebug(com)
 
 % Comments are in English until Microsoft implements a standard UTF8 encoding without three special character tag
