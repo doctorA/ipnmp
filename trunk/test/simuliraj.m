@@ -1,4 +1,4 @@
-function simuliraj(port);
+function simuliraj(timerhandle, eventdata, port);
 s = serial(port);
 %RandStream.setDefaultStream(RandStream('mt19937ar','seed',sum(100*clock)));
 fopen(s);
