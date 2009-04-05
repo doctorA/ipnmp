@@ -1,7 +1,7 @@
 function matrika = precitaj1()
     
     zastavica=0;
-    xDoc = xmlread(fullfile(matlabroot,'a.xml'));
+    xDoc = xmlread('a.xml');
  
     % Find a deep list of all <listitem> elements.
     allListItems = xDoc.getElementsByTagName('s');
