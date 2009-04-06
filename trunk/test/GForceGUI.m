@@ -147,6 +147,13 @@ function pushbutton6_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton6 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-end
 
+err_num = preveri(precitaj());
+
+if(err_num ~= 0)
+    warndlg(['V datoteki je napaka na vrstici' get(err_num,'String'),'!! Warning !!'])
+else
+    interpolacija(precitaj1());
+end
+end
 
