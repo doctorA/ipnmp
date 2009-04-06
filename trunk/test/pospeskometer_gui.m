@@ -53,9 +53,6 @@ end
 
 % --- Executes on button press in pushbutton1.
 function pushbutton1_Callback(hObject, eventdata, handles)
-axes(handles.axes1);
-cla;
-%popup_sel_index = get(handles.popupmenu1, 'Value');
 
 end
 
@@ -105,11 +102,6 @@ function pushbutton4_Callback(hObject, eventdata, handles,varargin)
 com_port_value = get(handles.edit1,'String');
 
 accDebug(com_port_value);
-
-if nargin>3
-
-end
-
 end
 
 
@@ -136,6 +128,7 @@ function pushbutton5_Callback(hObject, eventdata, handles)
 %"Virtual COM Port 1" and "Virtual COM port 2" and uses functions
 %simuliraj, which produces data strings equal to the ones produced by G-force
 %meter and accDebug, which reads the data stream from assigned COM port
+
 selection = questdlg(['WARNING: Do not use this function unless you have established fuctional virtual ports! Are you sure you want to use this feature?'],...
                      ['WARNING!'],...
                      'Yes','No','Yes');
@@ -145,8 +138,14 @@ if strcmp(selection,'No')
 elseif strcmp(selection,'Yes')
     com_port_value1 = get(handles.edit2,'String');
     com_port_value2 = get(handles.edit3,'String');
-    simuliraj(com_port_value1);
-    accDebug(com_port_value2);
+    
+    %pseudo parallelism with scheduling jobs
+    sched = findResource('scheduler','type','local');
+    job=createJob(sched);
+    createTask(job, @simuliraj,0,{com_port_value1});
+    createTask(job, @accDebug,0,{com_port_value2});
+    submit(job);
+    delete(sched);
 end                 
             
 end
