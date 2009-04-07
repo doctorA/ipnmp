@@ -34,7 +34,7 @@ n(9,:)=prvapolovica;
 n(8,:)=drugapolovica;
 
 %tu se generira URA
-if(i==65000)
+if(i>=63000)
     i=0;
 end
 tmp=dec2bin(i,16);
