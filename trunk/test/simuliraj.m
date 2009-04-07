@@ -1,4 +1,4 @@
-function simuliraj(port);
+function simuliraj(port)
 s = serial(port);
 %RandStream.setDefaultStream(RandStream('mt19937ar','seed',sum(100*clock)));
 fopen(s);
@@ -10,7 +10,7 @@ for m=0:10000,
 n=['11111111';'11111111']; %prva dva byta sta polna
 n(3,:)='10000000'; %status zlog, vrednost 128
 %tu se generira random x koordinata
-r= round(a + (b-a).*rand(1));
+r= round(a + (b-a).*rand(1))
 tmp=dec2bin(r,16);
 prvapolovica=tmp(1:8);
 drugapolovica=tmp(9:16);
