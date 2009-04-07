@@ -1,5 +1,4 @@
-function accDebug(com)                                                      % Stops with any key pressed
-%function [debug] = accDebug(com)
+function [debug] = accDebug(com)
 
 % Comments are in English until Microsoft implements a standard UTF8 encoding without three special character tag
 
@@ -112,6 +111,6 @@ fclose(s);
 % XML stuff
 fprintf(xmlFile,'</session>');                                              % Close <session> structure
 fclose(xmlFile);                                                            % Close XML file
-
+debug = xmlFileName;
 %debug = dataFormated;                                                       % Debug output
 end

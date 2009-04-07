@@ -1,6 +1,7 @@
 function varargout = GForceGUI(varargin)
 % GUI for G-Force reader
 % Authors: Blaž Magdiè & Dejan Volk
+% Documentation: Žiga S. & Miha M.
 % FERI IPNMP 2008/2009, All rights reserved
 %
 % GFORCEGUI M-file for GForceGUI.fig
@@ -76,7 +77,9 @@ function pushbutton4_Callback(hObject, eventdata, handles)
 
 com_port = get(handles.edit1,'String');
 figure
-accDebug(com_port);
+pot = accDebug(com_port);
+
+set(handles.edit4,'String',pot);
 
 end
 
@@ -100,7 +103,7 @@ function pushbutton5_Callback(hObject, eventdata, handles)
 %simuliraj, which produces data strings equal to the ones produced by G-force
 %meter and accDebug, which reads the data stream from assigned COM port
 
-selection = questdlg(['WARNING: Do not use this function unless you have established fuctional virtual ports! Are you sure you want to use this feature?'],...
+selection = questdlg(['WARNING: Do not use this feature unless you have established functional virtual ports! Are you sure you want to use this feature?'],...
                      ['WARNING!'],...
                      'Yes','No','Yes');
 
@@ -144,16 +147,47 @@ end
 
 % --- Executes on button press in pushbutton6.
 function pushbutton6_Callback(hObject, eventdata, handles)
-% hObject    handle to pushbutton6 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
+%Takes care of interpolation process
+%
+%Checks if file has no errors, if it does, it warns the user where the
+%last error is located, else it starts the interpolation process
 
-err_num = preveri(precitaj());
+selection = questdlg(['WARNING: Interpolation process takes several minutes to complete on slower systems. Are you sure you want to continue?'],...
+                     ['WARNING!'],...
+                     'Yes','No','Yes');
 
-if(err_num ~= 0)
-    warndlg(['V datoteki je napaka na vrstici' get(err_num,'String'),'!! Warning !!'])
-else
-    interpolacija(precitaj1());
+pot_xml = get(handles.edit4,'String');
+
+if strcmp(selection,'No')
+    return;
+elseif(strcmp(selection,'Yes') && isempty(pot_xml))
+   warndlg(['Error: No data parsed, please run Connect & Plot first'])
+   return;
+elseif strcmp(selection,'Yes')
+    
+    err_num = preveri(precitaj1(pot_xml));
+
+    if(err_num ~= 0)
+        warndlg(['Error in xml file on line' get(err_num,'String') 'Terminating...'])
+    else
+        interpolacija(precitaj1(pot_xml));
+        msgbox('Interpolation complete','Info','help');
+    end
+ 
+end
+
+end
+
+
+
+function edit4_Callback(hObject, eventdata, handles)
+end
+
+% --- Executes during object creation, after setting all properties.
+function edit4_CreateFcn(hObject, eventdata, handles)
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
 end
 end
+
 
