@@ -32,7 +32,16 @@ fopen(s);
 % Dreaded infinet loop of everything
 tic;
 while (brkSwitch);
-    dataRead = fread(s,256);                                                    % Read data from serial port buffer 
+    [dataRead,count,errmsg] = fread(s,256);   % Read data from serial port buffer
+     if (strfind(errmsg,'Timeout')) %zaznavanje , èe je prišlo do napake pri branju iz strema
+         fclose(s);                 % èe je prišlo do napake, za sabo poèistimo 
+         fprintf(xmlFile,'</session>');                                              % Close <session> structure
+         fclose(xmlFile); 
+         warning('Prenos podatkov je prekinjen, ali pa je prišlo do napake')
+         return
+
+     end
+
     dataPooled = reshape([dataPooled,dataRead'],1,[]);                      % Append new read data to left overs from buffer
     
     if (length(dataPooled) > 14)
