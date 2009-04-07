@@ -75,12 +75,12 @@ function pushbutton4_Callback(hObject, eventdata, handles)
 %Reads the string in edit1 textbox, saves it into com_port and calls
 %accDebug
 
+xml_pot=['accData', datestr(now, 'yyyy.mm.dd.HH.MM.SS'),'.xml'];
+set(handles.edit4,'String',xml_pot);
 com_port = get(handles.edit1,'String');
+disp(xml_pot);
 figure
-pot = accDebug(com_port);
-
-set(handles.edit4,'String',pot);
-
+accDebug(com_port,xml_pot);
 end
 
 function edit1_Callback(hObject, eventdata, handles)
@@ -113,13 +113,17 @@ elseif strcmp(selection,'Yes')
     com_port_value1 = get(handles.edit2,'String');
     com_port_value2 = get(handles.edit3,'String');
     
+    xml_pot=['accData', datestr(now, 'yyyy.mm.dd.HH.MM.SS'),'.xml'];
+    set(handles.edit4,'String',xml_pot);
     %pseudo parallelism with scheduling jobs
     %requires extensive CPU power to run both tasks simultaneously
     sched = findResource('scheduler','type','local');
     job=createJob(sched);
     createTask(job, @simuliraj,0,{com_port_value1});
-    createTask(job, @accDebug,0,{com_port_value2});
+    createTask(job, @accDebug,1,{com_port_value2,xml_pot});
     submit(job);
+    results = getAllOutputArguments(job);
+    set(handles.edit4,'String',results);
     delete(sched);
 end    
 end
@@ -148,8 +152,10 @@ end
 % --- Executes on button press in pushbutton6.
 function pushbutton6_Callback(hObject, eventdata, handles)
 %Takes care of interpolation process
-%
-%Checks if file has no errors, if it does, it warns the user where the
+%1.) Reads the name of the XML file from edit4 text box. If there is no
+%string present, it throws a warning informing the user to start reading
+%data stream first
+%2.) Checks if file has no errors, if it does, it warns the user where the
 %last error is located, else it starts the interpolation process
 
 selection = questdlg(['WARNING: Interpolation process takes several minutes to complete on slower systems. Are you sure you want to continue?'],...
@@ -175,10 +181,7 @@ elseif strcmp(selection,'Yes')
     end
  
 end
-
 end
-
-
 
 function edit4_Callback(hObject, eventdata, handles)
 end

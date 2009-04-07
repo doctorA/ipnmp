@@ -1,4 +1,4 @@
-function [debug] = accDebug(com)
+function [debug] = accDebug(com,xml)
 
 % Comments are in English until Microsoft implements a standard UTF8 encoding without three special character tag
 
@@ -15,7 +15,7 @@ brkSwitch = 1;                                                              % Wh
 c = 1;                                                                      % Signal counter
 
 % XML stuff, doing things by hand until we figure out what goes on in memmory with java classes
-xmlFileName = ['accData', datestr(now, 'yyyy.mm.dd.HH.MM.SS'),'.xml'];      % Generated unique filename based on date and time
+xmlFileName = xml;      % Generated unique filename based on date and time
 xmlFile = fopen(xmlFileName,'w','n','UTF8');                                % Opening a file used to write XML structure
 
 fprintf(xmlFile,'<?xml version="1.0" encoding="utf-8"?>\n');                % Writing XML header
@@ -32,7 +32,7 @@ fopen(s);
 % Dreaded infinet loop of everything
 tic;
 while (brkSwitch);
-    dataRead = fread(s);                                                    % Read data from serial port buffer 
+    dataRead = fread(s,256);                                                    % Read data from serial port buffer 
     dataPooled = reshape([dataPooled,dataRead'],1,[]);                      % Append new read data to left overs from buffer
     
     if (length(dataPooled) > 14)
@@ -111,6 +111,5 @@ fclose(s);
 % XML stuff
 fprintf(xmlFile,'</session>');                                              % Close <session> structure
 fclose(xmlFile);                                                            % Close XML file
-debug = xmlFileName;
 %debug = dataFormated;                                                       % Debug output
 end
