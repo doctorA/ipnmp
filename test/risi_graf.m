@@ -24,6 +24,9 @@ vectory=[vectory(2:length(vectory)) y];  %dodajanje vrednosti y na konec vektorj
 vectorz=[vectorz(2:length(vectorz)) z];  %dodajanje vrednosti z na konec vektorja
 t=toc;  %pridobitev preteklega èasa
 if(t>interval)  %za izpis na doloèen interval
+    %group 4 change - limiting X and Y plot intervals, thus eliminating the
+    %possible memory leak problem as suggested by the mentor of this
+    %project
     subplot(3, 1, 1);  %risanje na 1. graf
     plot(vectorx, 'b');
     set(gca,'XLim',[0 200],'YLim',[0 80000]);
