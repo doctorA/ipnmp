@@ -6,11 +6,11 @@ a=32765; %obseg random številk
 b=0;
 i=0; %števec za èas
 j=0; %števec paketov
-for m=0:10000,    
+for m=0:30000,    
 n=['11111111';'11111111']; %prva dva byta sta polna
 n(3,:)='10000000'; %status zlog, vrednost 128
 %tu se generira random x koordinata
-r= round(a + (b-a).*rand(1))
+r= round(a + (b-a).*rand(1));
 tmp=dec2bin(r,16);
 prvapolovica=tmp(1:8);
 drugapolovica=tmp(9:16);
@@ -34,8 +34,9 @@ n(9,:)=prvapolovica;
 n(8,:)=drugapolovica;
 
 %tu se generira URA
-if(i>=63000)
-    i=0;
+if(i+1188>=65535)
+    a=65535-i;
+    i=1188-a;
 end
 tmp=dec2bin(i,16);
 prvapolovica=tmp(1:8);
@@ -44,7 +45,7 @@ n(11,:)=prvapolovica;
 n(10,:)=drugapolovica;
 
 %tu se generira ŠTEVEC PAKETA
-tmp=dec2bin(i,16);
+tmp=dec2bin(j,16);
 prvapolovica=tmp(1:8);
 drugapolovica=tmp(9:16);
 n(13,:)=prvapolovica;
@@ -55,7 +56,8 @@ n(14,:)='11111110';
 %checksum B je zaenkrat neuporabljen
 n(15,:)='11111110';
 fwrite(s,uint8(bin2dec(n)));
-i=i+1;
+i=i+1188;
 j=j+1;
+%  pause(0.001);  
 end
 fclose(s);
