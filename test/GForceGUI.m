@@ -78,8 +78,9 @@ function pushbutton4_Callback(hObject, eventdata, handles)
 xml_pot=['accData', datestr(now, 'yyyy.mm.dd.HH.MM.SS'),'.xml'];
 set(handles.edit4,'String',xml_pot);
 com_port = get(handles.edit1,'String');
-disp(xml_pot);
 figure
+f1=gcf;
+set(0,'CurrentFigure',f1);
 accDebug(com_port,xml_pot);
 end
 
@@ -115,15 +116,19 @@ elseif strcmp(selection,'Yes')
     
     xml_pot=['accData', datestr(now, 'yyyy.mm.dd.HH.MM.SS'),'.xml'];
     set(handles.edit4,'String',xml_pot);
+    
     %pseudo parallelism with scheduling jobs
     %requires extensive CPU power to run both tasks simultaneously
     sched = findResource('scheduler','type','local');
     job=createJob(sched);
     createTask(job, @simuliraj,0,{com_port_value1});
-    createTask(job, @accDebug,1,{com_port_value2,xml_pot});
+    createTask(job, @accDebug,0,{com_port_value2,xml_pot});
     submit(job);
-    results = getAllOutputArguments(job);
-    set(handles.edit4,'String',results);
+    
+    figure
+    f1=gcf;
+    set(0,'CurrentFigure',f1);
+    
     delete(sched);
 end    
 end
@@ -176,6 +181,9 @@ elseif strcmp(selection,'Yes')
     if(err_num ~= 0)
         warndlg(['Error in xml file on line' get(err_num,'String') 'Terminating...'])
     else
+        figure
+        f1=gcf;
+        set(0,'CurrentFigure',f1);
         interpolacija(precitaj1(pot_xml));
         msgbox('Interpolation complete','Info','help');
     end
