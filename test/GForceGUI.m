@@ -184,7 +184,13 @@ elseif strcmp(selection,'Yes')
         figure
         f1=gcf;
         set(0,'CurrentFigure',f1);
-        interpolacija(precitaj1(pot_xml));
+        matrika=interpolacija(precitaj1(pot_xml));      %interpolirana matrika se shrani 
+        dolzina=length(matrika);                        % izraèuna njena dolžina 
+        tic;
+        for(i=1:1:dolzina) 
+            risi_graf(matrika(i,2),matrika(i,3),matrika(i,4),1);    % klièe funkcijo za risanje grafov, z podatki x y z
+            pause(0.01);                                            %poèaka 10 ms , da se graf lahko izriše
+        end
         msgbox('Interpolation complete','Info','help');
     end
  
