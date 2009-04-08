@@ -36,8 +36,8 @@ while (brkSwitch);
      if (strfind(errmsg,'Timeout')) %zaznavanje , èe je prišlo do napake pri branju iz strema
          fclose(s);                 % èe je prišlo do napake, za sabo poèistimo 
          fprintf(xmlFile,'</session>');                                              % Close <session> structure
-         fclose(xmlFile); 
-         warning('Prenos podatkov je prekinjen, ali pa je prišlo do napake')
+         fclose(xmlFile);   
+         warndlg(['Error: Lost connection or encountered a critical error. Terminating...'])
          return
 
      end
