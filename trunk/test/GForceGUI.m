@@ -72,8 +72,8 @@ end
 % --- Executes on button press in pushbutton4.
 function pushbutton4_Callback(hObject, eventdata, handles)
 %Calls function accDebug which handles data stream from the G-force meter
-%Reads the string in edit1 textbox, saves it into com_port and calls
-%accDebug
+%Reads the string in edit1 textbox, saves it into com_port, generates the 
+%XML file name and calls accDebug
 
 xml_pot=['accData', datestr(now, 'yyyy.mm.dd.HH.MM.SS'),'.xml'];
 set(handles.edit4,'String',xml_pot);
@@ -104,7 +104,7 @@ function pushbutton5_Callback(hObject, eventdata, handles)
 %simuliraj, which produces data strings equal to the ones produced by G-force
 %meter and accDebug, which reads the data stream from assigned COM port
 
-selection = questdlg(['WARNING: Do not use this feature unless you have established functional virtual ports! Are you sure you want to use this feature?'],...
+selection = questdlg(['WARNING: This function is for testing purposes only! Do not use this feature unless you have established functional virtual ports! Are you sure you want to use this feature?'],...
                      ['WARNING!'],...
                      'Yes','No','Yes');
 

@@ -1,6 +1,8 @@
-function [debug] = accDebug(com,xml)
+function [debug] = accDebug(com,xml) %group 4 change - creating XML file name in the GUI itself so we can easily pass it to EditBox4 & this function
+                                     %for future use
 
-% Comments are in English until Microsoft implements a standard UTF8 encoding without three special character tag
+% Comments are in English until Microsoft implements a standard UTF8
+% encoding without three special character tags
 
 dataRead = [];                                                              % Reading port buffer in to variable
 dataPooled = [];                                                            % Pulling together leftovers from buffer between reads
@@ -10,7 +12,7 @@ dataFormated = [];                                                          % Pr
 
 dataSecond = [];                                                            % Processes and formated raw data split in to seconds
 
-brkSwitch = 1;                                                              % When t gracefully exit the dreadded while loop
+brkSwitch = 1;                                                              % When it gracefully exits the dreaded while loop
 
 c = 1;                                                                      % Signal counter
 
@@ -29,15 +31,18 @@ fprintf(xmlFile,['<session date="',datestr(now, 'yyyy.mm.dd'),'">\n']);     % Op
 s = serial(com);
 fopen(s);
 
-% Dreaded infinet loop of everything
+% Dreaded infinte loop of everything
 tic;
+
+%group 4 change - adding </session> tag at the end of the file if there is a
+%timeout error
 while (brkSwitch);
     [dataRead,count,errmsg] = fread(s,256);   % Read data from serial port buffer
-     if (strfind(errmsg,'Timeout')) %zaznavanje , èe je prišlo do napake pri branju iz strema
-         fclose(s);                 % èe je prišlo do napake, za sabo poèistimo 
+     if (strfind(errmsg,'Timeout')) %detecting possible errors while reading from the data stream
+         fclose(s);                 % clear the structure if error exists 
          fprintf(xmlFile,'</session>');                                              % Close <session> structure
          fclose(xmlFile);   
-         warndlg(['Error: Lost connection or encountered a critical error. Terminating...'])
+         warndlg(['Error: Lost connection or encountered a critical error. Terminating...']) %warn the user
          return
 
      end
@@ -60,7 +65,7 @@ while (brkSwitch);
             dataFormated(c,7) = dataStored(14,f);
             dataFormated(c,8) = dataStored(15,f);
             
-            % At this pointdataFormated(c,(1-8)) has the latest signal, pooled and formated, GRAPH GOUES HERE! 
+            % At this pointdataFormated(c,(1-8)) has the latest signal, pooled and formated, GRAPH GOES HERE! 
             risi_graf(dataFormated(c,2),dataFormated(c,3),dataFormated(c,4),1);
             
             if (dataFormated(c,5) < dataFormated(1,5))                      % Checking to see if timer counter has turned over
@@ -109,7 +114,7 @@ while (brkSwitch);
     pause(0.1);                                                             % If any one has a better idea, patches welcome!!!
     key = get (gcf, 'CurrentKey');                                          % We get a key
     if (~isempty(key))                                                      % If it's not empty
-        brkSwitch = 0;                                                      % We set condition to stop the dreadded loop
+        brkSwitch = 0;                                                      % We set condition to stop the dreaded loop
     end
     
 end
