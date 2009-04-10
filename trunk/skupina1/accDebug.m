@@ -43,15 +43,15 @@ while (brkSwitch);
         
         for f = 1:1:length(dataStored)
             dataFormated(c,1) = dataStored(3,f);
-            dataFormated(c,2) = ((dataStored(5,f) * 256) + dataStored(4,f));
-            dataFormated(c,3) = ((dataStored(7,f) * 256) + dataStored(6,f));
-            dataFormated(c,4) = ((dataStored(9,f) * 256) + dataStored(8,f));
+            dataFormated(c,2) = tcint162int16((dataStored(5,f) * 256) + dataStored(4,f));
+            dataFormated(c,3) = tcint162int16((dataStored(7,f) * 256) + dataStored(6,f));
+            dataFormated(c,4) = tcint162int16((dataStored(9,f) * 256) + dataStored(8,f));
             dataFormated(c,5) = ((dataStored(11,f) * 256) + dataStored(10,f));
             dataFormated(c,6) = ((dataStored(13,f) * 256) + dataStored(12,f));
             dataFormated(c,7) = dataStored(14,f);
             dataFormated(c,8) = dataStored(15,f);
             
-            % At this pointdataFormated(c,(1-8)) has the latest signal, pooled and formated, GRAPH GOUES HERE! 
+            % At this point dataFormated(c,(1-8)) has the latest signal, pooled and formated, GRAPH GOES HERE! 
             
             if (dataFormated(c,5) < dataFormated(1,5))                      % Checking to see if timer counter has turned over
                 if (dataFormated(c,5) < dataFormated((c - 1),5))            % When in the buffer the timer turned over
@@ -66,6 +66,7 @@ while (brkSwitch);
                     
                     for i = 1:1:(c - 1),                                    % For every signal in the second we write it into sec XML deck
                         fprintf(xmlFile,['<s>',int2str(dataSecond(i,1)),';',int2str(dataSecond(i,2)),';',int2str(dataSecond(i,3)),';',int2str(dataSecond(i,4)),';',int2str(dataSecond(i,5)),';',int2str(dataSecond(i,6)),';',int2str(dataSecond(i,7)),';',int2str(dataSecond(i,8)),';','</s>\n']);
+                        %fprintf(xmlFile,['<s>',int2str(dataSecond(i,1)),';',num2str(dataSecond(i,2) / 32768),';',num2str(dataSecond(i,3) / 32768, 5),';',num2str(dataSecond(i,4) / 32768, 5),';',int2str(dataSecond(i,5)),';',int2str(dataSecond(i,6)),';',int2str(dataSecond(i,7)),';',int2str(dataSecond(i,8)),';','</s>\n']);
                     end
                     
                     c = 1;
@@ -82,6 +83,7 @@ while (brkSwitch);
                     
                     for i = 1:1:(c - 1),                                    % For every signal in the second we write it into sec XML deck
                         fprintf(xmlFile,['<s>',int2str(dataSecond(i,1)),';',int2str(dataSecond(i,2)),';',int2str(dataSecond(i,3)),';',int2str(dataSecond(i,4)),';',int2str(dataSecond(i,5)),';',int2str(dataSecond(i,6)),';',int2str(dataSecond(i,7)),';',int2str(dataSecond(i,8)),';','</s>\n']);
+                        %fprintf(xmlFile,['<s>',int2str(dataSecond(i,1)),';',num2str(dataSecond(i,2) / 32768),';',num2str(dataSecond(i,3) / 32768, 5),';',num2str(dataSecond(i,4) / 32768, 5),';',int2str(dataSecond(i,5)),';',int2str(dataSecond(i,6)),';',int2str(dataSecond(i,7)),';',int2str(dataSecond(i,8)),';','</s>\n']);
                     end
                     
                     c = 1;
