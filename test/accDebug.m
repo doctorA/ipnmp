@@ -57,9 +57,9 @@ while (brkSwitch);
         
         for f = 1:1:length(dataStored)
             dataFormated(c,1) = dataStored(3,f);
-            dataFormated(c,2) = ((dataStored(5,f) * 256) + dataStored(4,f));
-            dataFormated(c,3) = ((dataStored(7,f) * 256) + dataStored(6,f));
-            dataFormated(c,4) = ((dataStored(9,f) * 256) + dataStored(8,f));
+            dataFormated(c,2) = tcint162int16((dataStored(5,f) * 256) + dataStored(4,f));   % Group 1 fix - adjusting for two's complement encodig
+            dataFormated(c,3) = tcint162int16((dataStored(7,f) * 256) + dataStored(6,f));   % Group 1 fix - adjusting for two's complement encodig
+            dataFormated(c,4) = tcint162int16((dataStored(9,f) * 256) + dataStored(8,f));   % Group 1 fix - adjusting for two's complement encodig
             dataFormated(c,5) = ((dataStored(11,f) * 256) + dataStored(10,f));
             dataFormated(c,6) = ((dataStored(13,f) * 256) + dataStored(12,f));
             dataFormated(c,7) = dataStored(14,f);
@@ -125,5 +125,5 @@ fclose(s);
 % XML stuff
 fprintf(xmlFile,'</session>');                                              % Close <session> structure
 fclose(xmlFile);                                                            % Close XML file
-%debug = dataFormated;                                                       % Debug output
+%debug = dataFormated;                                                      % Debug output
 end
