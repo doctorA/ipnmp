@@ -29,19 +29,19 @@ if(t>interval)  %za izpis na doloèen interval
     %project
     subplot(3, 1, 1);  %risanje na 1. graf
     plot(vectorx, 'b');
-    set(gca,'XLim',[0 200],'YLim',[0 80000]);
+    set(gca,'XLim',[0 200],'YLim',[-2100 2100]);
     title('Pospešek v X smeri');
     xlabel('èas');
     ylabel('odklon');
     subplot(3, 1, 2);  %risanje na 2. graf
     plot(vectory, 'r');
-    set(gca,'XLim',[0 200],'YLim',[0 80000]);
+    set(gca,'XLim',[0 200],'YLim',[-2100 2100]);
     title('Pospešek v Y smeri');
     xlabel('èas');
     ylabel('odklon');
     subplot(3, 1, 3);  %risanje na 3. graf
     plot(vectorz, 'g');
-    set(gca,'XLim',[0 200],'YLim',[0 6000]);
+    set(gca,'XLim',[0 200],'YLim',[-2100 2100]);
     title('Pospešek v Z smeri');
     xlabel('èas');
     ylabel('odklon');
