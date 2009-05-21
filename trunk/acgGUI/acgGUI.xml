@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<acgGUI>
+<editACC>COM13</editACC>
+<editCAM>Logitech QuickCam Pro 5000</editCAM>
+<editGPS>COM7</editGPS>
+<checkboxACC>0</checkboxACC>
+<checkboxCAM>0</checkboxCAM>
+<checkboxGPS>0</checkboxGPS>
+</acgGUI>
